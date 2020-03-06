@@ -36,7 +36,6 @@
 #include <fade_screen>
 #include <actor_ex>
 #include <a_http>
-#include <dini>
 #include <mSelection>
 #include <nfunk>
 #include <dutils>
@@ -411,6 +410,8 @@ new SkinySklepSkins[] = {
 #define DIALOG_WYBIERZ_SPAWN_VIP 92
 #define DIALOG_WYBIERZ_SPAWN_GRACZ 93
 
+//========== [ PANEL TUNINGU PD] ==========
+
 #define KOLORYPD 94
 #define FELGIPD 95
 #define NEONYPD 96
@@ -428,7 +429,9 @@ new SkinySklepSkins[] = {
 #define TUNINGSTRATUM 108
 #define TUNINGTORNADO 109
 #define TUNINGURANUS 110
-//========== [  SYSTEM SADOWNICTWA ] ==========
+
+//========== [ SYSTEM SADOWNICTWA ] ==========
+
 #define DIALOG_ROZPRAWA_MENU 111
 #define DIALOG_ROZPRAWA_MENU_ROZPRAWA 112
 #define DIALOG_ROZPRAWA_OSKARZONY 113
@@ -439,11 +442,24 @@ new SkinySklepSkins[] = {
 #define DIALOG_ROZPRAWA_SWIADKOWIE 117
 #define DIALOG_ROZPRAWA_SWIADKOWIE_PRZE 118
 
+//========== [ PANEL DJ'A ] ==========
+
+#define DIALOG_DJ 119
+
+//========== [ PANEL ADMINA ] ==========
+
 #define DIALOG_TAP_PANEL_ADMINA 120
 #define DIALOG_TAP_PANEL_ADMINA1 121
 #define DIALOG_TAP_PANEL_ADMINA01 121
 
-#define DIALOG_DJ 119
+//========== [ PANEL MAPER'A ] ==========
+
+#define DIALOG_MAPER_MAIN 122
+#define DIALOG_MAPER_BUDYNEK_MAIN 123
+#define DIALOG_MAPER_BRAMY_MAIN 124
+#define DIALOG_MAPER_SILOWNIA_MAIN 125
+#define DIALOG_MAPER_OBIEKT_NEW_TYPE 126
+#define DIALOG_MAPER_OBIEKT_EDIT_MAIN 127
 
 
 #define ZMIANAHOSTNAME 2000
@@ -9297,7 +9313,41 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		}
 		return 1;
 	}
+
+	if(dialogid == DIALOG_MAPER_MAIN && response) {
+		switch(listitem) {
+			case: 0 { //Obiekt 
+				ShowPlayerDialog(playerid, DIALOG_MAPER_OBIEKT_MAIN, DIALOG_STYLE_LIST, "Panel Mapera - Obiekt", "Dodaj obiekt\nEdytuj obiekt\nUsun obiekt", "Dalej", "Wstecz");
+				return 1;
+			}
+			case 1: { //Budynek
+				ShowPlayerDialog(playerid, DIALOG_MAPER_BUDYNEK_MAIN, DIALOG_STYLE_LIST, "Panel Mapera - Budynek", "Dodaj budynek\nEdytuj budynek\nUsun budynek", "Dalej", "Wstecz");
+				return 1;
+			}
+			case 2: { //Bramy/drzwi
+				ShowPlayerDialog(playerid, DIALOG_MAPER_BRAMY_MAIN, DIALOG_STYLE_LIST, "Panel Mapera - Bramy/drzwi", "Dodaj brame/drzwi\nEdytuj brame/drzwi\nUsun brame/drzwi", "Dalej", "Wstecz");
+			}
+			case 3: { //silownia
+				ShowPlayerDialog(playerid, DIALOG_MAPER_SILOWNIA_MAIN, DIALOG_STYLE_LIST, "Panel Mapera - Silownia", "Dodaj maszyne\nEdytuj maszyne\nUsun maszyne", "Dalej", "Wstecz");
+			}
+		}
+		return 1;
+	}
+
+	if(dialogid == DIALOG_MAPER_OBIEKT_MAIN && response) {
+		switch(listitem) {
+			case 0: { //dodaj obiekt
+				ShowPlayerDialog(playerid, DIALOG_MAPER_OBIEKT_NEW_TYPE, DIALOG_STYLE_INPUT, "Panel mapera - dodaj nowy obiekt", "Ponizej wpisz typ obiektu\n{bf0d00}0{ffffff} - zwykly obiekt\n{bf0d00}1{ffffff} - bankomat\n{bf0d00}2{ffffff} - przejazd graniczny", "Dodaj", "Wroc");
+				return 1;
+			}
+			case 1: { //edytuj obiekt
+				ShowPlayerDialog(playerid, DIALOG_MAPER_OBIEKT_EDIT_MAIN, DIALOG_STYLE_LIST, "Panel mapera - edytuj obiekt", "Przesun obiekt\nKopiuj obiekt\nUsun obiekt", "Wykonaj", "Wstecz");
+			}
+		}
+	}
     
+	
+
 	return 1;
 }
 
@@ -10717,7 +10767,7 @@ CMD:napad(playerid)
 		 
 		PlayerNapadPanel(playerid, 5); 
 	}
-	else return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	else return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	return 1;
 }
 
@@ -10740,7 +10790,7 @@ CMD:zwiaz(playerid, params[])
 		SCMIC(playerid, 10, -1, data);
 		PlayerData[player][pTimerSkuty] = SetTimerEx("TimerPlayerSkuty", 1000, true, "dd", playerid, player);
 	}
-	else return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	else return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	return 1;
 }
 
@@ -10761,7 +10811,7 @@ CMD:odwiaz(playerid, params[])
 		format(data,sizeof(data),"{C2A2DA}*%s podchodzi do %s poczym odwiazuje jego rece z linki", PlayerData[playerid][pName], PlayerData[player][pName]);
 		SCMIC(playerid, 10, -1, data);
 	}
-	else return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	else return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	return 1;
 }
 
@@ -10788,7 +10838,7 @@ CMD:worek(playerid, params[])
 			PlayerTextDrawShow(player, Txd_others_txds[player][0]);
 		}
 	}
-	else return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	else return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	return 1;
 }
 
@@ -10828,7 +10878,7 @@ CMD:zasadz(playerid, params[])
 		SaveNarko(uid);
 		narko_value++;
 	}
-	else return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	else return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	return 1;
 }
 
@@ -12543,7 +12593,7 @@ CMD:vtankuj(playerid)
 CMD:vczas(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /vczas [godzina]");
-	if(PlayerData[playerid][pRanga] < RANGA_VIP) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_VIP) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	SetPlayerTime(playerid, strval(params), 0);
 	return 1;
@@ -12552,7 +12602,7 @@ CMD:vczas(playerid, params[])
 CMD:vulecz(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /vulecz");
-	if(PlayerData[playerid][pRanga] < RANGA_VIP) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_VIP) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	
 	SetPlayerHealth(playerid, 100);
@@ -14497,7 +14547,7 @@ CMD:acmd(playerid)
 
 CMD:lista(playerid)
 {
-	if(PlayerData[playerid][pFrakcja] == 0) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pFrakcja] == 0) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	new data[500] = "ID\tGracz\tTresc\tLokalizacja\n";
 	for(new i = 0; i != MAX_ZAWIADOMIEN; i ++)
@@ -14520,7 +14570,7 @@ CMD:przyjmij(playerid, params[])
 {
 	new id = strval(params), data[250];
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /przyjmij [id zawiadomienia]");
-	if(PlayerData[playerid][pFrakcja] == 0) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pFrakcja] == 0) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(PlayerData[playerid][pSluzba] == false) return SendClientMessage(playerid, -1, "{a4a4a4}Nie jestes na sluzbie.");
 	if(ZawiadomieniaData[id][zAktywny] == false) return SendClientMessage(playerid, -1, "{a4a4a4}Zawiadomienie o tym id nie jest aktywne.");
 	if(ZawiadomieniaData[id][zFrakcja] != PlayerData[playerid][pFrakcja]) return SendClientMessage(playerid, -1, "{a4a4a4}Zawiadomienie o tym id nie nalezy do twojej frakcji.");
@@ -14544,7 +14594,7 @@ CMD:przyjmij(playerid, params[])
 CMD:freeze(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /freeze [id]");
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	TogglePlayerControllable(strval(params), false);
 	return 1;
@@ -14552,7 +14602,7 @@ CMD:freeze(playerid, params[])
 /*
 CMD:restartt(playerid, params[])
 {
-    if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+    if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	format(s, sizeof(s), "[PTR-Serw]{FF0000}Administrator {FFFFFF}%s (%d) {FF0000}RESTART SERWERA", PlayerData[playerid][pName], playerid);
     SetTimer("GameModeExit", params[0] * 1000, 0); 
     new s[256];
@@ -14565,7 +14615,7 @@ CMD:restart(playerid, params[])
 {   
 	new s[256];   
     new string[128];
-	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	format(s, sizeof(s), "[PTR-Serw]{FF0000}Administrator {FFFFFF}%s (%d) {FF0000}RESTART SERWERA", PlayerData[playerid][pName], playerid);
     if(sscanf(params, "d", params[0])) return SCM(playerid, LRED, "/Restart (serwera)"); 
     SetTimer("GameModeExit", params[0] * 1000, 0); 
@@ -14575,7 +14625,7 @@ CMD:restart(playerid, params[])
 }
 CMD:rest(playerid, params[])
 {
-    if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+    if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	{
 		ClearGlobalChat();
 		new s[256];
@@ -14590,7 +14640,7 @@ CMD:rest(playerid, params[])
 CMD:unfreeze(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /unfreeze [id]");
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	TogglePlayerControllable(strval(params), true);
 	return 1;
@@ -14598,7 +14648,7 @@ CMD:unfreeze(playerid, params[])
 CMD:ekran(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /ekran [tekst]");
-	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	GameTextForAll(params, 10000, 3);
 	return 1;
@@ -14606,14 +14656,14 @@ CMD:ekran(playerid, params[])
 CMD:bron(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /bron [id broni]");
-	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	GivePlayerWeaponEx(playerid, strval(params), 9999);
 	return 1;
 }
 CMD:czysc(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	{
 		ClearGlobalChat();
 		new s[256];
@@ -14626,7 +14676,7 @@ CMD:unbw(playerid, params[])
 {
 	new player = strval(params);
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /unbw [id]");
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(PlayerData[player][pDeath] == false) return SendClientMessage(playerid, -1, "{a4a4a4}Gracz o podanym id nie ma bw.");
 	PlayerData[player][pDeath] = false;
 	SetCameraBehindPlayer(player);
@@ -14639,7 +14689,7 @@ CMD:unbw(playerid, params[])
 CMD:zczas(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /zczas [godzina]");
-	if(PlayerData[playerid][pRanga] < RANGA_ZASLUZONY) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_ZASLUZONY) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	SetPlayerTime(playerid, strval(params), 0);
 	return 1;
@@ -14649,14 +14699,14 @@ CMD:settime(playerid, params[])
 	new czas;
 	
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /settime [godzina]");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	SetWorldTime(czas);
 	return 1;
 }
 CMD:zpogode(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /zpogode [id pogody]");
-	if(PlayerData[playerid][pRanga] < RANGA_ZASLUZONY) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_ZASLUZONY) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	SetPlayerWeather(playerid, strval(params));
 	return 1;
@@ -14664,7 +14714,7 @@ CMD:zpogode(playerid, params[])
 CMD:azmienpogode(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /azmienpogode [id pogody]");
-	if(PlayerData[playerid][pRanga] < RANGA_TECHNIK_TS3) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_TECHNIK_TS3) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	SetWeather(strval(params));
 	ServerData[sPogoda] = strval(params);
@@ -14674,7 +14724,7 @@ CMD:azmienpogode(playerid, params[])
 
 CMD:rsp(playerid)
 {
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	GameTextForAll("~r~Respawn ~b~pojazdow ~r~za:~n~~w~10", 1000, 4);
 	resp = 10;
 	RespTimerTImer = SetTimer("resptimer", 1000, true);
@@ -14689,7 +14739,7 @@ CMD:createvehicle(playerid, params[])
 	if(firma != 0 && FirmaData[firma][fAktywny] == 0) return SendClientMessage(playerid, -1, "{a4a4a4}UID firmy ktorej chcesz nadac pojazd nie istnieje.");
 	if(owner < -1) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisales niepoprawna wartosc w polu 'owneruid'.");
 	if(frakcja != 0 && firma != 0) return SendClientMessage(playerid, -1, "{a4a4a4}Pojazd nie moze byc podpisany pod firme i frakcje jednoczesnie. Zdecyduj sie i popraw pola 'frakcja' oraz 'firma'.");
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	
 	if(owner == 0)
@@ -14842,7 +14892,7 @@ CMD:editvehicle(playerid, params[])
 
 /*CMD:deletevehicle(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new vid = GetPlayerVehicleID(playerid);
 	new query[256];
 	format(query, sizeof(query), "UPDATE `data_vehicles` set `aktywny` = '%d' where `uid` = '%d'", 1, VehicleData[vid][vUID]); mysql_query(query);
@@ -14854,7 +14904,7 @@ CMD:editvehicle(playerid, params[])
 
 CMD:savevehicle(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	LoadVehicles(0, 2); // zapis pojazdow
 	SendClientMessage(playerid, -1, " {a4a4a4}Pojazdy zostaly zapisane! ");
 	return 1;
@@ -14862,7 +14912,7 @@ CMD:savevehicle(playerid, params[])
 
 CMD:reloadvehicle(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	LoadVehicles(0, 0); //resp pojazdow
 	SendClientMessage(playerid, -1, " {a4a4a4}Pojazdy zostaly zaladowane ponownie! ");
 	return 1;
@@ -14902,7 +14952,7 @@ CMD:createitem(playerid, params[])
 		ShowPlayerDialog(playerid, 9999, DIALOG_STYLE_MSGBOX, "Tworzenie przedmiotu:", data, "Zamknij", "");
 		return 1;
 	}	
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	CreatePlayerItem(playerid, przedmiot, var1, var2, var3, var4, var5, var6);
 	SendClientMessage(playerid, -1, "{a4a4a4}Przedmiot zostal stworzony i dodany do listy twoich przedmiotow.");
 	return 1;
@@ -14912,20 +14962,20 @@ CMD:setvw(playerid, params[])
 {
 	new player, vw;
 	if(sscanf(params, "dD(0)", player, vw)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /setvw [id] [vw]");
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	SetPlayerVirtualWorldEx(player, vw);
 	return 1;
 }
 CMD:acp(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	ShowPlayerDialog(playerid, DIALOG_TAP_PANEL_ADMINA, DIALOG_STYLE_LIST, "Menu Teleportu", "Teleport gracza do siebie\nTeleport siebie do gracza\nTeleport gracza do gracza\nTeleport do warpa (WKROTCE)", "Dalej", "Anuluj");
 
 	return 1;
 }
 CMD:apanel(playerid)
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new data[1000];
 	data = "#\t#\t#\t#\n";
 	
@@ -14966,7 +15016,7 @@ CMD:apanel(playerid)
 
 CMD:warn(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	ShowPlayerDialog(playerid, DIALOG_TAP_PANEL_ADMINA1, DIALOG_STYLE_LIST, "Menu Warn", "Teleport gracza do siebie\nTeleport siebie do gracza", "Dalej", "Anuluj");
 
 	return 1;
@@ -14976,7 +15026,7 @@ CMD:setvw(playerid, params[])
 {
 	new player, vw;
 	if(sscanf(params, "dD(0)", player, vw)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /setvw [id] [vw]");
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	SetPlayerVirtualWorldEx(player, vw);
 	return 1;
 }
@@ -14985,14 +15035,14 @@ CMD:setint(playerid, params[])
 {
 	new player, vw;
 	if(sscanf(params, "dD(0)", player, vw)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /setint [id] [interior]");
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	SetPlayerInteriorEx(player, vw);
 	return 1;
 }
 CMD:edittowar(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz /edittowar [uid]");
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new data[500], uid = strval(params), towar_dla[30];
 	PlayerData[playerid][pTowarTworzUID] = uid;
 	data = "#\t#\n";
@@ -15073,7 +15123,7 @@ CMD:addprawko(playerid, params[])
 
 CMD:addtowar(playerid)
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new data[500], uid = towar_value+1, towar_dla[30];
 	PlayerData[playerid][pTowarTworzUID] = uid;
 	
@@ -15166,7 +15216,7 @@ CMD:setranga(playerid, params[])
 {
 	new player, ranga, data[128];
 	if(sscanf(params, "dd", player, ranga)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /setranga [ID] [ID Rangi (/arangi)]");
-	//if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");  //DODAĆ!
+	//if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");  //DODAĆ!
 	PlayerData[player][pRanga] = ranga;
 	format(data,sizeof(data),"{a4a4a4}Poprawnie zmioniono graczu %s range na %d.", PlayerData[player][pName], ranga);
 	SendClientMessage(playerid, -1, data);
@@ -15179,7 +15229,7 @@ CMD:setskin(playerid, params[])
 	new player, skin;
 	if(sscanf(params, "dd", player, skin)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /setskin [ID] [SKIN ID]");
 	if(skin < 0 || skin > 311) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /setskin [ID] [SKIN ID] (0 - 311)");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	PlayerData[player][pSkin] = skin;
 	SetPlayerSkin(player, PlayerData[player][pSkin]);
 	return 1;
@@ -15209,7 +15259,7 @@ CMD:setfrakcja(playerid, params[])
 {
 	new player, frakcja, data[128];
 	if(sscanf(params, "dd", player, frakcja)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /setfrakcja [ID] [ID Frakcji] (Wpisz: /afrakcje, aby zobaczyc typy)");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	PlayerData[player][pFrakcja] = frakcja;
 	format(data,sizeof(data),"{a4a4a4}Poprawnie zmioniono graczu %s frakcje na %d.", PlayerData[player][pName], frakcja);
 	SendClientMessage(playerid, -1, data);
@@ -15228,7 +15278,7 @@ CMD:eska(playerid, params[])
 	
 CMD:jresp(playerid, params[])
 	{
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	#pragma unused params
 	SetVehicleToRespawn(GetPlayerVehicleID(playerid));
 	return 1;
@@ -15240,7 +15290,7 @@ CMD:tpdo(playerid, params[])
    	new v = GetPlayerVehicleID(player);
 	new Float:Pos[3];
 	if(isnull(params)) return SCM(playerid,-1,"{a4a4a4}Wpisz /tpdo [nick/id gracza]");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsPlayerConnected(player)) return SCM(playerid, -1, "{a4a4a4}Ten gracz nie jest połączony z serwerem!");
  //   if(PlayerData[player][pAFK] == true) SCM(playerid,-1,"{a4a4a4}Uwaga! gracz do którego się teleportowaleś jest AFK.");
     SetPlayerInterior(playerid,GetPlayerInterior(player));
@@ -15269,7 +15319,7 @@ CMD:tpp(playerid, params[])
 {
 	new id1, id2, v;
 	if(sscanf(params, "dd", id1, id2)) return SCM(playerid, -1, "{a4a4a4}Wpisz: /tpp [id 1] [id 2]");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 //	if(PlayerData[id1][Zalogowany]==false) return Info(playerid,"Gracz o podanym pierwszym id nie jest na serwerze");
 //	if(PlayerData[id2][Zalogowany]==false) return Info(playerid,"Gracz o podanym drugim id nie jest na serwerze");
  //   if(PlayerData[id2][pAFK] == true) SCM(playerid,-1,"{a4a4a4}Uwaga! drugi gracz jest AFK.");
@@ -15306,7 +15356,7 @@ CMD:repair(playerid,params[])
 {
 	new player = strval(params);
 	if(isnull(params)) return SCM(playerid,-1,"{a4a4a4}Wpisz: /repair <id gracza>");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 
 	RepairVehicle(GetPlayerVehicleID(player));
 	SetVehicleHealth(GetPlayerVehicleID(player), 999.9);
@@ -15322,7 +15372,7 @@ CMD:repair(playerid,params[])
 CMD:naprawall(playerid, params[])
 	{
 	#pragma unused params
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	{
 		for(new i; i < MAX_VEHICLES; i++)
 		{
@@ -15471,7 +15521,7 @@ CMD:error(playerid)
 CMD:ajet(playerid, params[])
 {
 	//	new JetPack
-		if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+		if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 		PlayerData[playerid][pJetPack] = 69;
 		SetPlayerSpecialAction(playerid,SPECIAL_ACTION_USEJETPACK);
   return 1;
@@ -15480,7 +15530,7 @@ CMD:ajet(playerid, params[])
 CMD:setlider(playerid, params[])
 {
 	new player, lider, data[450];
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(sscanf(params, "dd", player, lider)) 
 	{
 	
@@ -15533,7 +15583,7 @@ CMD:spec(playerid, params[])
 {
 	new player = strval(params);
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /spec [ID]");
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
 
 	if(PlayerData[playerid][pSpecID] == -1)
@@ -15565,7 +15615,7 @@ CMD:spec(playerid, params[])
 
 CMD:specoff(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(PlayerData[playerid][pSpecID] == -1) return SendClientMessage(playerid, -1,"{a4a4a4}Nikogo nie specujesz");
 	
 	SpecOffSystem(playerid);
@@ -15577,7 +15627,7 @@ CMD:zmiennick(playerid, params[])
 	new player, newnick[MAX_PLAYER_NAME], data[128];
 	if(sscanf(params, "ds[MAX_PLAYER_NAME]", player, newnick)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /zmiennick [ID] [Nick]");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	format(data,sizeof(data),"{a4a4a4}Poprawnie zmioniono graczu %s nick na %s.", PlayerData[player][pName], newnick);
 	SendClientMessage(playerid, -1, data);
@@ -15591,7 +15641,7 @@ CMD:kick(playerid, params[])
 {
 	new player, powod[30];
 	if(sscanf(params, "ds[29]", player, powod)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /kick [ID] [Powod]");
-	if(PlayerData[playerid][pRanga] < RANGA_MAPER) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MAPER) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
 	KickTimer(player, playerid, powod);
 	return 1;
@@ -15601,7 +15651,7 @@ CMD:mute(playerid, params[])
 {
 	new player, powod[30], czas;
 	if(sscanf(params, "ds[29]d", player, powod, czas)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /mute [ID] [Powod] [Czas (Minuty)]");
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK && PlayerData[playerid][pRanga] != RANGA_ZASLUZONY) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK && PlayerData[playerid][pRanga] != RANGA_ZASLUZONY) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
 	if(czas <= 0) return SendClientMessage(playerid, -1, "{a4a4a4}Niepoprawny czas wyciszenia.");
 	Muted(player, playerid, powod, czas);
@@ -15611,7 +15661,7 @@ CMD:unmute(playerid, params[])
 {
 	new player = strval(params), data[128];
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /unmute [id gracza]");
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK && PlayerData[playerid][pRanga] != RANGA_ZASLUZONY) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK && PlayerData[playerid][pRanga] != RANGA_ZASLUZONY) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
 	if(PlayerData[player][pMuted] <= 0) return SendClientMessage(playerid, -1, "{a4a4a4}Ten gracz nie jest wyciszony!");
 
@@ -15632,7 +15682,7 @@ CMD:aj(playerid, params[])
 	new player, czas, powod[128], data[128];
 
 	if(sscanf(params, "dds[128]", player, czas, powod)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /aj [ID] [Czas (Minuty)] [Powod]");
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
 	if(czas <= 0) return  SendClientMessage(playerid, -1, "{a4a4a4}Niepoprawny czas aj.");
 
@@ -15664,7 +15714,7 @@ CMD:unaj(playerid, params[])
 {
 	new player = strval(params), data[128];
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /unaj [id gracza]");
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
 	if(PlayerData[player][pJail] <= 0) return SendClientMessage(playerid, -1, "{a4a4a4}Ten gracz nie jest w aj!");
 
@@ -15687,7 +15737,7 @@ CMD:unaj(playerid, params[])
 CMD:spawn(playerid,params[])
 {
 	new carid[62], Float:X, Float:Y, Float:Z, Float:angle, vehicle;
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(sscanf(params,"s[62]", carid)) return SendClientMessage(playerid,-1,"{a4a4a4}Wpisz: /spawn [Nazwa Pojazdu]");
 	if(!IsNumeric(carid) && GetVehicleModelIdByName(carid) == 0) return  SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /spawn [Nazwa Pojazdu]");
 	if(GetPlayerVehicleID(playerid) != 0) return SendClientMessage(playerid, -1, "{a4a4a4}Nie mozesz byc w pojezdzie podczas wykonywania tej komendy.");
@@ -15722,7 +15772,7 @@ CMD:spawn(playerid,params[])
 }
 CMD:adelcars(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	new bool:Used[MAX_VEHICLES], zlicz = 0, data[128];
 	
@@ -15756,7 +15806,7 @@ CMD:spawnmapper(playerid,params[])
 	new carid[62], Float:X, Float:Y, Float:Z, Float:angle, vehicle;
 	
 	if(sscanf(params,"s[62]", carid)) return SendClientMessage(playerid,-1,"{a4a4a4}Wpisz: /spawn [Nazwa Pojazdu]");
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsNumeric(carid) && GetVehicleModelIdByName(carid) == 0) return  SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /spawn [Nazwa Pojazdu]");
 	if(GetPlayerVehicleID(playerid) != 0) return SendClientMessage(playerid, -1, "{a4a4a4}Nie mozesz byc w pojezdzie podczas wykonywania tej komendy.");
 	
@@ -15790,7 +15840,7 @@ CMD:spawnmapper(playerid,params[])
 }
 CMD:adelmapper(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	new bool:Used[MAX_VEHICLES], zlicz = 0, data[128];
 	
@@ -15825,7 +15875,7 @@ CMD:spawnev(playerid,params[])
 	new carid[62], Float:X, Float:Y, Float:Z, Float:angle, vehicle;
 	
 	if(sscanf(params,"s[62]", carid)) return SendClientMessage(playerid,-1,"{a4a4a4}Wpisz: /spawn [Nazwa Pojazdu]");
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsNumeric(carid) && GetVehicleModelIdByName(carid) == 0) return  SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /spawn [Nazwa Pojazdu]");
 	if(GetPlayerVehicleID(playerid) != 0) return SendClientMessage(playerid, -1, "{a4a4a4}Nie mozesz byc w pojezdzie podczas wykonywania tej komendy.");
 	
@@ -15859,7 +15909,7 @@ CMD:spawnev(playerid,params[])
 }
 CMD:adelevent(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	new bool:Used[MAX_VEHICLES], zlicz = 0, data[128];
 	
@@ -15891,7 +15941,7 @@ CMD:adelevent(playerid, params[])
 CMD:unbanip(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /unbanip [IP]");
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
     
 	UnBanIP(playerid, params);
     return 1;
@@ -15899,14 +15949,14 @@ CMD:unbanip(playerid, params[])
 CMD:unban(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /unban [Nick]");
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	UnBanNick(playerid, params);
     return 1;
 }
 CMD:unblock(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /unblock [Nick]");
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	new data[128];
 	format(data,sizeof(data),"UPDATE `data_players` SET `block` = '0' WHERE `nick` = '%s'", params);
@@ -15919,7 +15969,7 @@ CMD:unblock(playerid, params[])
 
 CMD:banlista(playerid)
 {
-	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	new dataa[1000], data[200], i, get_uid, get_zbanowany[24], get_banujacy[24], get_powod[30], get_data[30], get_ip[18], get_gpci[40], get_time, Dni, Godzin, Minut;
 	dataa = "Zbanowany\tBanujacy\tPowod\tDane\n";
@@ -15962,7 +16012,7 @@ CMD:ban(playerid,params[])
 {
 	new player, powod[30], gpcii, ipp, dni, godzin, minut, time;
 	
-	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MODERATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(sscanf(params, "iD(0)D(0)D(0)D(1)D(0)S(Brak)[30]", player, dni, godzin, minut, ipp, gpcii, powod)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /ban [ID] [Dni] [Godzin] [Minut] [IP 0/1] [GPCI 0/1] [Powod] ");
 	if(IsPlayerConnected(player) == 0)  return SendClientMessage(playerid,-1,"{a4a4a4}Gracz o tym id jest offline.");
 	
@@ -15995,7 +16045,7 @@ CMD:sethp(playerid, params[])
 {
 	new hp;
 	if(sscanf(params, "d", hp)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /sethp [Ilosc hP (50m)]");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	for(new i = 0, j = GetPlayerPoolSize(); i <= j; i++)
 	{
@@ -16013,7 +16063,7 @@ CMD:hp(playerid, params[])
 	new id;
 	new Float:hp;
 	if(sscanf(params, "df", id, hp)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /hp [ID] [Ilosc hP]"); 
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	SetPlayerHealth(id, hp);
 	return 1;
 }
@@ -16023,7 +16073,7 @@ CMD:dajkaseid(playerid, params[])
 	new player, kasa, data[128];
 	if(sscanf(params, "dd", player, kasa)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /dajkaseid [ID] [Kasa]");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
-	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	
 	GivePlayerCash(player, kasa);
@@ -16042,7 +16092,7 @@ CMD:dajscoreid(playerid, params[])
 	new player, score, data[128];
 	if(sscanf(params, "dd", player, score)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /dajscoreid [ID] [Score]");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
-	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	
 	GivePlayerScore(player, score);
@@ -16061,7 +16111,7 @@ CMD:dajscore(playerid, params[])
 {
 	new score = strval(params), data[128];
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /dajscore [Ilosc]");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	for(new i = 0, j = GetPlayerPoolSize(); i <= j; i++)
 	{
@@ -16083,7 +16133,7 @@ CMD:dajkase(playerid, params[])
 {
 	new kasa = strval(params), data[128];
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /dajscore [Ilosc]");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	for(new i = 0, j = GetPlayerPoolSize(); i <= j; i++)
 	{
@@ -16108,7 +16158,7 @@ CMD:tp(playerid, params[])
 	if(sscanf(params, "dd", id1, id2)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /tp [ID 1] [ID 2]");
 	if(!IsPlayerConnected(id1)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id1 nie znajduje sie na serwerze online.");
 	if(!IsPlayerConnected(id2)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id2 nie znajduje sie na serwerze online.");
-	if(PlayerData[playerid][pRanga] < RANGA_MAPER) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MAPER) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(PlayerData[id1][pDeath] == true) return SendClientMessage(playerid, -1, "{a4a4a4}Gracz id1 jest w stanie bw, nie mozna go teleportowac");
 	if(PlayerData[id2][pDeath] == true) return SendClientMessage(playerid, -1, "{a4a4a4}Gracz id2 jest w stanie bw, nie mozna go teleportowac");
 	
@@ -16123,7 +16173,7 @@ CMD:tp(playerid, params[])
 CMD:tpall(playerid, params[])
 {
 	new Float: x, Float: y, Float: z;
-	if(PlayerData[playerid][pRanga] < RANGA_MAPER) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_MAPER) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	GetPlayerPos(playerid, x, y, z);
 	for(new i; i < MAX_PLAYERS; i++)
 	{
@@ -16137,7 +16187,7 @@ CMD:dajvipa(playerid,params[])
 	new player, dni, godzin, minut;
 	if(sscanf(params,"dddd",player,dni,godzin,minut)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /dajvipa [ID] [Dni] [Godzin] [Minut]");
 	if(!IsPlayerConnected(player)) return SendClientMessage(playerid, -1, "{a4a4a4}Podane id nie znajduje sie na serwerze online.");
-	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_ADMINISTRATOR) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	SetPlayerVipStatus(player, playerid, 0, dni, godzin, minut);
 	return 1;
 }
@@ -16274,7 +16324,7 @@ CMD:event(playerid, params[])
 {	
 	new nazwa[30], czas, data[128];
 	if(sscanf(params, "s[30]d", nazwa, czas)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /event [Nazwa Eventu] [Czas (na zapisy)]");
-	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	
 	format(data,sizeof(data),"[PTR-Serw]{0080FF}[EVENT] [%d]%s uruchomil zapisy na event %s. Wpisz /ev, aby dolaczyc. (czas na dolaczenie: %d min.)", playerid, PlayerData[playerid][pName], nazwa, czas);
@@ -16291,7 +16341,7 @@ CMD:event(playerid, params[])
 }
 CMD:evzakoncz(playeridd)
 {
-	if(PlayerData[playeridd][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playeridd, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playeridd][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playeridd, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new data[128];
 	for(new playerid = 0, j = GetPlayerPoolSize(); playerid <= j; playerid++)
 	{
@@ -16312,7 +16362,7 @@ CMD:evwyrzuc(playerid, params[])
 {
 	new data[128], player = strval(params);
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /evwyrzuc [ID]");
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(PlayerData[playerid][pEventMember] == false) return SendClientMessage(playerid, -1, "{a4a4a4}Gracz ten nie jest czlonkiem eventu.");
 	
 	SetPlayerPos(player, PlayerData[player][pPos][0], PlayerData[player][pPos][1], PlayerData[player][pPos][2]);
@@ -16329,7 +16379,7 @@ CMD:evwyrzuc(playerid, params[])
 CMD:evdodaj(playerid, params[])
 {
 	if(isnull(params)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /evdodaj [ID]");
-	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_POMOCNIK) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!IsPlayerConnected(strval(params))) return SendClientMessage(playerid, -1, "{a4a4a4}Gracz ten nie jest polaczony z serwerem.");
 	
 	new data[128];
@@ -16367,7 +16417,7 @@ CMD:ev(playerid, params[])
 	
 CMD:pickups(playerid)
 {
-	//if(PlayerData[playerid][pRanga] < 5) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	//if(PlayerData[playerid][pRanga] < 5) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new data[800];
 	format(data,sizeof(data),"\
 					0 - Stacja benzynowa\n\
@@ -16413,7 +16463,7 @@ CMD:editpickup(playerid, params[])
 		SendClientMessage(playerid,-1,"{a4a4a4}Wpisz: /editpickup [usun / type / przywroc / tp / cena / uid");
 		return 1;
 	}
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	if(!strcmp(str1,"uid",true))
 	{
@@ -16540,7 +16590,7 @@ CMD:addpickup(playerid, params[])
 	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) 
 	{
 		cmd_pickups(playerid);
-		SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+		SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 		return 1;
 	}
 	
@@ -16608,7 +16658,7 @@ CMD:editfoto(playerid, params[])
 {
 	new str1[32], str2[126], data[500], uid = GetPlayerFotoradar(playerid, 15.0);
 	if(sscanf(params, "s[32]S()[126]", str1, str2)) return SendClientMessage(playerid,-1,"{a4a4a4}Wpisz: /editfoto [tp / przesun / kara / max / usun]");
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	if(!strcmp(str1,"uid",true))
 	{
@@ -16671,7 +16721,7 @@ CMD:editfoto(playerid, params[])
 
 CMD:addpozar(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new modelid, uid = pozar_value, data[200];
 	if(isnull(params))
 	{
@@ -16738,7 +16788,7 @@ CMD:addpozar(playerid, params[])
 
 CMD:addkloda(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new uid = kloda_value, data[200];
 	if(isnull(params))
 	{
@@ -16786,7 +16836,7 @@ CMD:addkloda(playerid, params[])
 
 CMD:addplama(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new uid = plama_value, data[200];
 	
 	GetPlayerPos(playerid, PlamaData[uid][plPos][0], PlamaData[uid][plPos][1], PlamaData[uid][plPos][2]);
@@ -16822,7 +16872,7 @@ CMD:addplama(playerid, params[])
 
 CMD:addfoto(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new max_km, kara_prz, uid = foto_value, data[200];
 	if(sscanf(params, "dd", max_km, kara_prz)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /addfoto [max km] [kara $ za przekroczenie]");
 	
@@ -16863,7 +16913,7 @@ CMD:editvia(playerid, params[])
 {
 	new str1[32], str2[126], data[500], uid = GetPlayerViatoll(playerid, 15.0);
 	if(sscanf(params, "s[32]S()[126]", str1, str2)) return SendClientMessage(playerid,-1,"{a4a4a4}Wpisz: /editvia [tp / przesun / kwota / pkt / usun]");
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	if(!strcmp(str1,"uid",true))
 	{
@@ -16925,7 +16975,7 @@ CMD:editvia(playerid, params[])
 
 CMD:addvia(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new pkt, kwota, uid = viatoll_value, data[200];
 	if(sscanf(params, "dd", kwota, pkt)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /addvia [Kwota za przejazd] [Pobor punktow za przejazd]");
 	
@@ -16970,7 +17020,7 @@ CMD:edito(playerid, params[])
 		SendClientMessage(playerid,-1,"{a4a4a4}... rx / ry / rz / uid]");
 		return 1;
 	}
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL && PlayerData[playerid][pRanga] != RANGA_MAPER) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL && PlayerData[playerid][pRanga] != RANGA_MAPER) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	if(!strcmp(str1,"uid",true))
 	{
@@ -17177,11 +17227,21 @@ CMD:edito(playerid, params[])
 
 //edito move  1 0 0 0.1 0.1 0.1 0 90 0//
 
+
+CMD:maper(playerid, param[]) {
+
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL || PlayerData[playerid][pRanga] != RANGA_MAPER) return SCM(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.")
+	
+	ShowPlayerDialog(playerid, DIALOG_MAPER_MAIN, DIALOG_STYLE_LIST, "Panel Mapera", "Obiekt\nBudynek\nBramy/drzwi\nSilownia", "Dalej", "Wyjdz");
+
+	return 1;
+}
+
 CMD:addo(playerid, params[])
 {
 	new modelid, type;
 	if(sscanf(params, "dD(0)", modelid, type)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /addo [modelid] [0 - zwykly obiekt | 1 - bankomat | 2 - przejazd graniczny]");
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL && PlayerData[playerid][pRanga] != RANGA_MAPER) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL && PlayerData[playerid][pRanga] != RANGA_MAPER) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new uid = obiekt_value, data[200];
 	
 	
@@ -17214,7 +17274,7 @@ CMD:addo(playerid, params[])
 
 CMD:addbudynek(playerid, params[])
 {
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	new nazwa[31], typ, cena, interior_house, level_house;
 	if(sscanf(params, "s[30]D(0)D(0)D(1)D(0)", nazwa, typ, cena, interior_house, level_house))
 	{
@@ -17232,7 +17292,7 @@ CMD:addgym(playerid, params[])
 {
 	if(PlayerData[playerid][pPlayerGymEdit] == -1)
 	{
-		if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+		if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 		new type, uid = gym_value, data[200];
 		if(sscanf(params, "d", type)) return SendClientMessage(playerid, -1, "{a4a4a4}Wpisz: /addgym [TYP MASZYNY] [1 - LAWECZKA] [2 - BIERZNIA]");
 		
@@ -17290,7 +17350,7 @@ CMD:editgym(playerid, params[])
 	{
 		new str1[32], str2[126], data[500], uid = GetPlayerGym(playerid, 5.0);
 		if(sscanf(params, "s[32]S()[126]", str1, str2)) return SendClientMessage(playerid,-1,"{a4a4a4}Wpisz: /editgym [tp / przesun / typ / usun]");
-		if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+		if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 		
 		if(!strcmp(str1,"uid",true))
 		{
@@ -17357,7 +17417,7 @@ CMD:editgate(playerid, params[])
 {
     new str1[32], str2[126], data[500], uid = GetPlayerGateTerminal(playerid, 5.0);
 	if(sscanf(params, "s[32]S()[126]", str1, str2)) return SendClientMessage(playerid,-1,"{a4a4a4}Wpisz: /editgate [tp / przesun / frakcja / usun]");
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 		
 	if(!strcmp(str1,"uid",true))
 	{
@@ -17411,7 +17471,7 @@ CMD:editgate(playerid, params[])
 CMD:adddodatek(playerid, params[])
 {
 	new vid = GetPlayerVehicleID(playerid), objectid, query[512], type, Float:x, Float:y, Float:z, Float: rz;
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SCM(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SCM(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	if(!GetPlayerVehicleID(playerid)) return SCM(playerid, -1, "{a4a4a4}Aby dodac dodatek musisz byc w pojezdzie.");
 	if(IsVehicleAAirplane(vid) || IsVehicleAHelicopter(vid) || IsVehicleABoat(vid) || ToMotor(vid) || ToRower(vid)) return SCM(playerid, -1, "{a4a4a4}Nie mozesz zalozyc dodatku na tego typu pojazdu!");
 	if(sscanf(params, "ddffff", objectid, type, x, y, z, rz)) return SCM(playerid, -1, "{a4a4a4}Wpisz /adddodatk [OBJECTID] [TYPE] [X] [Y] [Z] [RotZ] (0 - obiekt widoczny po spawnie pojazdu, 1 - obiekt widoczny po uzyciu /v)");
@@ -17511,7 +17571,7 @@ CMD:addgate(playerid, params[])
     new frakcja;
     new data[500];
     new uid = gates_value;
-    if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SCM(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+    if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SCM(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
     if(IsPlayerInAnyVehicle(playerid)) return SCM(playerid, -1, "{a4a4a4}Nie mozesz przebywac w pojezdzie.");
     if(sscanf(params, "d", frakcja)) return SCM(playerid, -1, "{a4a4a4}/addgate frakcja");
     GateData[uid][gUID] = uid;
@@ -17534,7 +17594,7 @@ CMD:addgate(playerid, params[])
 CMD:dajwszystkoall(playerid,params[])
 {
     new data[128];
-    if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+    if(PlayerData[playerid][pRanga] < RANGA_JUNIORADMIN) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
     for(new i; i < MAX_PLAYERS; i++)
     {
         PlayerData[i][pSen] = 100;
@@ -17659,7 +17719,7 @@ CMD:editbudynek(playerid, params[])
 		SendClientMessage(playerid,-1,"{a4a4a4}... / przywroc / tp / uid / nazwa");
 		return 1;
 	}
-	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
+	if(PlayerData[playerid][pRanga] < RANGA_WSPOLWLASCICIEL) return SendClientMessage(playerid, -1, "{ffffff}[{bf0d00}BLAD{ffffff}]{a4a4a4}Nie masz uprawnien do uzywania tej komendy.");
 	
 	if(!strcmp(str1,"uid",true))
 	{
